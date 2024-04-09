@@ -15,4 +15,4 @@ You need Node.js and npm installed on your machine. You can use `node -v` and `n
 1. Clone the repository and navigate into the cloned repository: `cd <yourpath>\msw-app`
 2. Install the dependencies: `npm install`
 3. Start the application: `npm start`
-4. The application (display text "There are 289 portcalls.") should now be running and accessible in your browser at `http://localhost:3000`.
+4. The application (display text "There are xxx portcalls.") should now be running and accessible in your browser at `http://localhost:3000`.
