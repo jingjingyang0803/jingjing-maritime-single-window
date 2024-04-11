@@ -6,7 +6,10 @@ function App() {
   useEffect(() => {
     fetch("https://meri.digitraffic.fi/api/port-call/v1/port-calls")
       .then((response) => response.json())
-      .then((data) => setPortCalls(data.portCalls.length));
+      .then((data) => {
+        setPortCalls(data.portCalls.length);
+        console.log(`There are ${data.portCalls.length} portcalls.`);
+      });
   }, []);
 
   return (
