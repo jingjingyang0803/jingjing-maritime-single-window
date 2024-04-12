@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS
+name: Deploy to Amazon EC2
 
 on:
   push:
@@ -47,7 +47,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           script: |
-            sudo docker pull ${{ github.repository }}:latest
+            sudo docker pull docker pull ghcr.io/latest${{ github.repository }}/msw-app:latest
             sudo docker stop msw-app || true
             sudo docker rm msw-app || true
-            sudo docker run -d --name msw-app -p 80:80 ${{ github.repository }}
+            sudo docker run -d --name msw-app -p 80:80 ghcr.io/latest${{ github.repository }}/msw-app:latest
