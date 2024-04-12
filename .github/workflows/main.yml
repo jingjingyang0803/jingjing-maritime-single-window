@@ -46,8 +46,13 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
-        env:
-          DOCKER_IMAGE: ghcr.io/${{ github.repository }}/msw-app
-          DOCKER_COMMAND: |
-            docker pull $DOCKER_IMAGE
-            docker run -d --name msw-app -p 80:80 $DOCKER_IMAGE
+  
+      - name: Execute commands on EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          script: |
+            docker pull ghcr.io/${{ github.repository }}/msw-app
+            docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}/msw-app
