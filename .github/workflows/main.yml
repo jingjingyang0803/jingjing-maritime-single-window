@@ -29,8 +29,9 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Build and push
         run: |
-          docker build -f ./msw-app/Dockerfile -t ghcr.io/${{ github.repository }}/msw-app ./msw-app
-          docker push ghcr.io/${{ github.repository }}/msw-app
+          cd ./msw-app
+          docker build -f Dockerfile -t ${{ github.repository }} .
+          docker push ${{ github.repository }}
 
   deploy:
     needs: build
@@ -46,7 +47,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           script: |
-            sudo docker pull ghcr.io/${{ github.repository }}/msw-app
+            sudo docker pull ${{ github.repository }}
             sudo docker stop msw-app || true
             sudo docker rm msw-app || true
-            sudo docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}/msw-app
+            sudo docker run -d --name msw-app -p 80:80 ${{ github.repository }}
