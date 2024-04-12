@@ -54,5 +54,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           script: |
-            docker pull ghcr.io/${{ github.repository }}/msw-app
-            docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}/msw-app
+            sudo docker pull ghcr.io/${{ github.repository }}/msw-app
+            sudo docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}/msw-app
