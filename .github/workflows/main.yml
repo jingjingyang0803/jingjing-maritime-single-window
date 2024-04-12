@@ -34,5 +34,5 @@ jobs:
           file: ./msw-app/Dockerfile
           push: true
           registry: ghcr.io
-          repository: ${{ github.repository }}/msw-app
+          repository: ${{ github.repository }}
           tag_with_ref: true
