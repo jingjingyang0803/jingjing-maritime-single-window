@@ -24,15 +24,31 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@main
+      - name: Login to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build and push
+        run: |
+          docker build -f ./Dockerfile -t ghcr.io/${{ github.repository }}/msw-app .
+          docker push ghcr.io/${{ github.repository }}/msw-app
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@main
-
-      - name: Build and push Docker image
-        uses: actions/checkout@main
+        
+      - name: Deploy to EC2
+        uses: easingthemes/ssh-deploy@main
         with:
-          context: ./msw-app
-          file: ./msw-app/Dockerfile
-          push: true
-          registry: ghcr.io
-          repository: ${{ github.repository }}
-          tag_with_ref: true
+          SSH_PRIVATE_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            ssh -o StrictHostKeyChecking=no -i ${{ secrets.AWS_SECRET_ACCESS_KEY }} ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} << 'EOF'
+              docker pull ghcr.io/${{ github.repository }}/msw-app
+              docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}/msw-app
+            EOF
