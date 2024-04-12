@@ -46,8 +46,8 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
-          script: |
-            ssh -o StrictHostKeyChecking=no -i ${{ secrets.AWS_SECRET_ACCESS_KEY }} ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} << 'EOF'
-              docker pull ghcr.io/${{ github.repository }}/msw-app
-              docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}/msw-app
-            EOF
+        env:
+          DOCKER_IMAGE: ghcr.io/${{ github.repository }}/msw-app
+          DOCKER_COMMAND: |
+            docker pull $DOCKER_IMAGE
+            docker run -d --name msw-app -p 80:80 $DOCKER_IMAGE
