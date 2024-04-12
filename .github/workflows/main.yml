@@ -60,7 +60,7 @@ jobs:
             docker build -f Dockerfile -t msw-app .
             docker run -p 80:80 msw-app
           
-            sudo docker pull ghcr.io/latest${{ github.repository }}
+            sudo docker pull ghcr.io/${{ github.repository }}
             sudo docker stop msw-app || true
             sudo docker rm msw-app || true
             sudo docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}
