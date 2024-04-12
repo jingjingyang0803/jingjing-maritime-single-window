@@ -55,4 +55,6 @@ jobs:
           key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           script: |
             sudo docker pull ghcr.io/${{ github.repository }}/msw-app
+            sudo docker stop msw-app || true
+            sudo docker rm msw-app || true
             sudo docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}/msw-app
