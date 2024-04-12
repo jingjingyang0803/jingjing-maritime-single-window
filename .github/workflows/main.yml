@@ -20,7 +20,7 @@ jobs:
           npm install
           npm test
 
-  build2:
+  build:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -28,6 +28,7 @@ jobs:
         uses: actions/checkout@main
 
       - name: Build and push Docker image
+        uses: actions/checkout@main
         with:
           context: ./msw-app
           file: ./msw-app/Dockerfile
@@ -35,15 +36,3 @@ jobs:
           registry: ghcr.io
           repository: ${{ github.repository }}/msw-app
           tag_with_ref: true
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      - name: Login to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: Build and push
-        run: |
-          docker build -f ./Dockerfile -t ghcr.io/${{ github.repository }}/msw-app .
-          docker push ghcr.io/${{ github.repository }}/msw-app
