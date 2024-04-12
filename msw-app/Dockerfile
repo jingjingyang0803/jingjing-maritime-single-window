@@ -1,5 +1,5 @@
 # Use an official Node runtime as the base image
-FROM node:18.17.1
+FROM node:latest
 # Set the working directory in the Docker image to /msw-app
 WORKDIR /msw-app
 # Copy package.json and package-lock.json into the image
