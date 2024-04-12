@@ -2,31 +2,49 @@ name: Deploy to Amazon ECS
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@main
-    - name: Set up Node.js
-      uses: actions/setup-node@main
-      with:
-        node-version: 'latest'
-    - name: Install and test
-      run: |
-        cd ./msw-app
-        npm install
-        npm test
+      - uses: actions/checkout@main
+      - name: Set up Node.js
+        uses: actions/setup-node@main
+        with:
+          node-version: "latest"
+      - name: Install and test
+        run: |
+          cd ./msw-app
+          npm install
+          npm test
+
+  build2:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@main
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@main
+        with:
+          context: ./msw-app
+          file: ./msw-app/Dockerfile
+          push: true
+          registry: ghcr.io
+          repository: ${{ github.repository }}/msw-app
+          tag_with_ref: true
 
   build:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@main
-    - name: Login to GitHub Container Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-    - name: Build and push
-      run: |
-        docker build -f ./msw-app/Dockerfile -t ghcr.io/${{ github.repository }}/msw-app ./msw-app
-        docker push ghcr.io/${{ github.repository }}/msw-app
+      - uses: actions/checkout@main
+      - name: Login to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build and push
+        run: |
+          docker build -f ./Dockerfile -t ghcr.io/${{ github.repository }}/msw-app .
+          docker push ghcr.io/${{ github.repository }}/msw-app
