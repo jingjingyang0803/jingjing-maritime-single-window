@@ -31,6 +31,7 @@ jobs:
         run: |
           cd ./msw-app
           docker build -f Dockerfile -t ghcr.io/${{ github.repository }} .
+          docker run -p 3000:3000 ghcr.io/${{ github.repository }}
           docker push ghcr.io/${{ github.repository }}
 
   deploy:
@@ -39,7 +40,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@main
-        
+      - name: Deploy to EC2
+	      uses: easingthemes/ssh-deploy@main
+	      env:
+	        SSH_PRIVATE_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+	        REMOTE_HOST: ${{ secrets.HOST_DNS }}
+	        REMOTE_USER: ${{ secrets.USERNAME }}
+	        TARGET: ${{ secrets.TARGET_DIR }}    
       - name: Execute commands on EC2 instance
         uses: appleboy/ssh-action@master
         with:
@@ -47,7 +54,11 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           script: |
-            sudo docker pull docker pull ghcr.io/latest${{ github.repository }}/msw-app:latest
+            cd ./home/jingjing-maritime-single-window/msw-app
+            docker build -f Dockerfile -t msw-app .
+            docker run -p 80:80 msw-app
+          
+            sudo docker pull ghcr.io/latest${{ github.repository }}
             sudo docker stop msw-app || true
             sudo docker rm msw-app || true
-            sudo docker run -d --name msw-app -p 80:80 ghcr.io/latest${{ github.repository }}/msw-app:latest
+            sudo docker run -d --name msw-app -p 80:80 ghcr.io/${{ github.repository }}
