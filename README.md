@@ -37,7 +37,7 @@ You can replace `<yourport>` with any available port number on your machine.
 Make sure Docker is installed and running on your machine before executing these commands.
 
 1. You can also pull the docker image directly from GitHub using: `docker pull ghcr.io/jingjingyang0803/jingjing-maritime-single-window/msw-app:latest`
-2. Run the Docker container: `docker run -p <yourport>:3000 ghcr.io/jingjingyang0803/jingjing-maritime-single-window/msw-app`
+2. Run the Docker container: `docker run -p <yourport>:3000 ghcr.io/jingjingyang0803/jingjing-maritime-single-window/msw-app:latest`
 3. The application (displays message "There are xxx portcalls.") should now be running and accessible in your browser at `http://localhost:<yourport>`. And the message appears in the browser's console as well.
 
 You can name your Docker image `app_name` as per your preference.
