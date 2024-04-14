@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TagCloud } from "react-tagcloud";
+import TagCloud3D from "react3dtagcloud";
 import { Container, Typography, Card, CardContent, Grid } from "@mui/material";
 
 function App() {
@@ -35,6 +36,35 @@ function App() {
     { value: "Port Departure", count: 36 },
   ];
 
+  const tags3d = [
+    "Maritime Single Window",
+    "Port Calls",
+    "Data Visualization",
+    "Vessel Traffic",
+    "Navigational Information",
+    "Marine Safety",
+    "Ship Tracking",
+    "Cargo Handling",
+    "Maritime Logistics",
+    "Port Authorities",
+    "Vessel Identification",
+    "E-navigation",
+    "Marine Communication",
+    "Maritime Traffic Notification",
+    "Real-time Information",
+    "Digital Submission",
+    "Visit Identification",
+    "Arrival Notice",
+    "Cargo Declaration",
+    "Fairway Dues Declaration",
+    "Liquefied Natural Gas",
+    "Data Spaces",
+    "Data-driven Decision Making",
+    "Timeline",
+    "Port Arrival",
+    "Port Departure",
+  ];
+
   useEffect(() => {
     fetch("https://meri.digitraffic.fi/api/port-call/v1/port-calls")
       .then((response) => response.json())
@@ -49,10 +79,12 @@ function App() {
   return (
     <Container style={{ margin: "30px auto" }}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={6} md={8}>
-          <Typography variant="h3" gutterBottom>
+        <Grid item xs={12} md={12}>
+          <Typography variant="h3" textAlign="center">
             There are {portCalls} portcalls.
           </Typography>
+        </Grid>
+        <Grid item xs={6} md={8}>
           {firstPortCall && (
             <Card
               variant="outlined"
@@ -66,7 +98,7 @@ function App() {
           )}
         </Grid>
         <Grid item xs={6} md={4}>
-          <div style={{ marginTop: "60px" }}>
+          <div>
             <TagCloud
               minSize={12}
               maxSize={35}
@@ -78,6 +110,9 @@ function App() {
               // className="simple-cloud"
               randomSeed={42}
             />
+          </div>
+          <div style={{ marginTop: "180px" }}>
+            <TagCloud3D tagName={tags3d} />
           </div>
         </Grid>
       </Grid>
