@@ -84,7 +84,7 @@ function App() {
             There are {portCalls} portcalls.
           </Typography>
         </Grid>
-        <Grid item xs={6} md={8}>
+        <Grid item xs={12} md={6}>
           {firstPortCall && (
             <Card
               variant="outlined"
@@ -97,7 +97,7 @@ function App() {
             </Card>
           )}
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={12} md={6}>
           <div>
             <TagCloud
               minSize={12}
@@ -111,7 +111,7 @@ function App() {
               randomSeed={42}
             />
           </div>
-          <div style={{ marginTop: "180px" }}>
+          <div style={{ margin: "160px auto" }}>
             <TagCloud3D tagName={tags3d} />
           </div>
         </Grid>
