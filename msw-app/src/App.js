@@ -91,7 +91,13 @@ function App() {
               className="MuiCard-root MuiCard-outlined"
               style={{ backgroundColor: "#f5f5f5" }}
             >
-              <CardContent>
+              <CardContent
+                style={{
+                  overflowX: "auto",
+                  overflow: "auto",
+                  maxHeight: "400px",
+                }}
+              >
                 <pre>{JSON.stringify(firstPortCall, null, 4)}</pre>
               </CardContent>
             </Card>
@@ -107,14 +113,14 @@ function App() {
                 luminosity: "light",
                 hue: "blue",
               }}
-              // className="simple-cloud"
-              randomSeed={42}
             />
           </div>
-          <div style={{ margin: "160px auto" }}>
-            <TagCloud3D tagName={tags3d} />
-          </div>
         </Grid>
+      </Grid>
+      <Grid item xs={12} md={12}>
+        <div style={{ margin: "160px auto" }}>
+          <TagCloud3D tagName={tags3d} />
+        </div>
       </Grid>
     </Container>
   );
