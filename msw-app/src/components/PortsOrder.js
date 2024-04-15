@@ -16,6 +16,8 @@ export default function PortsOrder({ portCall }) {
 
   if (voyage && typeof voyage === "string") {
     portsArray = voyage.split("-");
+  } else {
+    portsArray = ["No info!"];
   }
 
   return (
@@ -36,7 +38,7 @@ export default function PortsOrder({ portCall }) {
             color="text.secondary"
           ></TimelineOppositeContent>
           <TimelineSeparator>
-            <TimelineDot color="primary" variant="outlined">
+            <TimelineDot color="primary">
               <DirectionsBoatIcon />
             </TimelineDot>
             <TimelineConnector />

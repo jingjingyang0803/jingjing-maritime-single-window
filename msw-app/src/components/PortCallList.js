@@ -35,11 +35,16 @@ export default function PortCallList({ portCalls }) {
 
     if (ata && typeof ata === "string") {
       ataStr = ata.split(".")[0].replace("T", " ");
+    } else {
+      ataStr = "null";
     }
 
     if (atd && typeof atd === "string") {
       atdStr = atd.split(".")[0].replace("T", " ");
+    } else {
+      atdStr = "null";
     }
+
     return {
       id: portCall.portCallId,
       vesselName: portCall.vesselName,
