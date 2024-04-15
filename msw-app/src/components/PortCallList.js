@@ -17,12 +17,12 @@ export default function PortCallList({ portCalls }) {
     {
       field: "ata",
       headerName: "Arrival",
-      width: 280,
+      width: 200,
     },
     {
       field: "atd",
       headerName: "Departure",
-      width: 280,
+      width: 200,
     },
   ];
 
@@ -50,14 +50,14 @@ export default function PortCallList({ portCalls }) {
   });
 
   return (
-    <Box sx={{ height: 650, width: "100%" }}>
+    <Box sx={{ height: 400 }}>
       <DataGrid
         rows={rows}
         columns={columns}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 10,
+              pageSize: 20,
             },
           },
         }}

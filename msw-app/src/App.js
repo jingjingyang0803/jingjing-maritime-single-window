@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 import PortCallList from "./components/PortCallList";
+import PortCallTimeline from "./components/PortCallTimeline";
+import PortsOrder from "./components/PortsOrder";
+
 function App() {
   const [portCalls, setPortCalls] = useState([]);
 
@@ -27,6 +30,17 @@ function App() {
         There are {portCalls.length} portcalls.
       </Typography>
       <PortCallList portCalls={portCalls} />
+      {portCalls.map((portCall) => (
+        <div>
+          <Typography variant="h5" textAlign="center">
+            Ship: {portCall.vesselName}
+          </Typography>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <PortCallTimeline key={portCall.portCallId} portCall={portCall} />
+            <PortsOrder key={portCall.portCallId} portCall={portCall} />
+          </div>
+        </div>
+      ))}
     </Container>
   );
 }
