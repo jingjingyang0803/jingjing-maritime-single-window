@@ -34,7 +34,7 @@ function App() {
       <PortCallTable portCalls={portCalls} />
 
       <Typography variant="h3" textAlign="center" gutterBottom>
-        There are {portCalls.length} portcalls.
+        There are {portCalls.length} port calls.
       </Typography>
 
       <PortCallList portCalls={portCalls} />
