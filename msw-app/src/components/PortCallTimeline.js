@@ -55,7 +55,7 @@ export default function PortCallTimeline({ portCall }) {
           {ataStr}
         </TimelineOppositeContent>
         <TimelineSeparator>
-          <TimelineDot color="primary" />
+          <TimelineDot color="secondary" />
         </TimelineSeparator>
         <TimelineContent sx={{ py: "12px", px: 2 }}>
           <Typography variant="h6" component="span">
