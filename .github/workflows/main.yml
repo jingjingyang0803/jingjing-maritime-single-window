@@ -59,7 +59,7 @@ jobs:
           sudo docker image prune -a -f || true
 
           # Remove all stopped containers
-          sudo docker container prune -a -f || true
+          sudo docker container prune -f || true
           
           # Pull the latest Docker image
           sudo docker pull ghcr.io/${{ github.repository }}/msw-app:latest
