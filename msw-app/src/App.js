@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 import PortCallList from "./components/PortCallList";
-import PortCallTable from "./components/PortCallTable";
-import PortCallTimeline from "./components/PortCallTimeline";
-import PortsOrder from "./components/PortsOrder";
+// import PortCallTable from "./components/PortCallTable";
+// import PortCallTimeline from "./components/PortCallTimeline";
+// import PortsOrder from "./components/PortsOrder";
 
 function App() {
   const [portCalls, setPortCalls] = useState([]);
+  let vesselFound = false;
 
   useEffect(() => {
     fetch("https://meri.digitraffic.fi/api/port-call/v1/port-calls")
@@ -30,16 +31,32 @@ function App() {
       <Typography variant="h3" textAlign="center" gutterBottom>
         There are {portCalls.length} portcalls.
       </Typography>
-
-      <PortCallTable portCalls={portCalls} />
+      {portCalls.map((portCall) => {
+        if (portCall.vesselName.includes("bank")) {
+          vesselFound = true;
+          return (
+            <div>
+              <Typography variant="h5" textAlign="center">
+                Ship: {portCall.vesselName}
+              </Typography>
+            </div>
+          );
+        }
+      })}
+      {!vesselFound && (
+        <div>
+          <Typography variant="h5" textAlign="center">
+            There is no port call of vessel Kwintebank.
+          </Typography>
+        </div>
+      )}
+      {/* <PortCallTable portCalls={portCalls} />
 
       <Typography variant="h3" textAlign="center" gutterBottom>
         There are {portCalls.length} port calls.
-      </Typography>
-
+      </Typography> */}
       <PortCallList portCalls={portCalls} />
-
-      {portCalls.map((portCall) => (
+      {/* {portCalls.map((portCall) => (
         <div>
           <Typography variant="h5" textAlign="center">
             Ship: {portCall.vesselName}
@@ -50,7 +67,7 @@ function App() {
             <PortsOrder key={portCall.portCallId} portCall={portCall} />
           </div>
         </div>
-      ))}
+      ))} */}
     </Container>
   );
 }
