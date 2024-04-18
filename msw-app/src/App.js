@@ -32,13 +32,13 @@ function App() {
         There are {portCalls.length} portcalls.
       </Typography>
       {portCalls.map((portCall) => {
-        if (portCall.vesselName.includes("bank")) {
+        if (portCall.vesselName.includes("Emilie")) {
           vesselFound = true;
           return (
             <div>
-              <Typography variant="h5" textAlign="center">
-                Ship: {portCall.vesselName}
-              </Typography>
+              {/* <pre>{JSON.stringify(portCall)}</pre> */}
+
+              <pre>ETA of Emilie: {portCall.portAreaDetails[0].eta}</pre>
             </div>
           );
         }
@@ -46,7 +46,7 @@ function App() {
       {!vesselFound && (
         <div>
           <Typography variant="h5" textAlign="center">
-            There is no port call of vessel Kwintebank.
+            There is no port call of vessel Emilie.
           </Typography>
         </div>
       )}
