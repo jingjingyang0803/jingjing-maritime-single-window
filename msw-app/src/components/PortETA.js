@@ -1,37 +1,50 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+import Link from "@mui/material/Link"; // Import Link component from MUI
 
-export default function PortCallList({ portCalls }) {
+export default function PortETA({ portCalls }) {
   const columns = [
     {
       field: "vesselName",
-      headerName: "Ship",
+      headerName: "Vessel",
       width: 150,
     },
     {
-      field: "portToVisit",
-      headerName: "Port",
+      field: "nextPort",
+      headerName: "Next Port",
       width: 150,
     },
     {
       field: "ata",
-      headerName: "Arrival",
+      headerName: "Actual Arrival Time",
       width: 200,
     },
     {
-      field: "atd",
-      headerName: "Departure",
+      field: "eta",
+      headerName: "Estimated Arrival Time",
       width: 200,
+    },
+    {
+      field: "location",
+      headerName: "Location",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <Link href={params.value} target="_blank" rel="noopener noreferrer">
+            View Location
+          </Link>
+        );
+      },
     },
   ];
 
   const rows = portCalls.map((portCall) => {
     let ata = portCall.portAreaDetails[0].ata;
-    let atd = portCall.portAreaDetails[0].atd;
+    let eta = portCall.portAreaDetails[0].eta;
 
     let ataStr = "";
-    let atdStr = "";
+    let etaStr = "";
 
     if (ata && typeof ata === "string") {
       ataStr = ata.split(".")[0].replace("T", " ");
@@ -39,18 +52,19 @@ export default function PortCallList({ portCalls }) {
       ataStr = "null";
     }
 
-    if (atd && typeof atd === "string") {
-      atdStr = atd.split(".")[0].replace("T", " ");
+    if (eta && typeof eta === "string") {
+      etaStr = eta.split(".")[0].replace("T", " ");
     } else {
-      atdStr = "null";
+      etaStr = "null";
     }
 
     return {
       id: portCall.portCallId,
       vesselName: portCall.vesselName,
-      portToVisit: portCall.portToVisit,
+      nextPort: portCall.nextPort,
       ata: ataStr, // Actual Time of Arrival (ATA)
-      atd: atdStr, // Actual Time of Departure (ATD)
+      eta: etaStr, // Estimated Time of Departure (ETD)
+      location: `https://baltice.org/map/ships/${portCall.radioCallSign}`,
     };
   });
 
@@ -66,7 +80,7 @@ export default function PortCallList({ portCalls }) {
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[5, 10, 20]}
         checkboxSelection
       />
     </Box>

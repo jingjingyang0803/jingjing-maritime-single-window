@@ -4,6 +4,7 @@ import PortCallList from "./components/PortCallList";
 // import PortCallTable from "./components/PortCallTable";
 // import PortCallTimeline from "./components/PortCallTimeline";
 // import PortsOrder from "./components/PortsOrder";
+import PortETA from "./components/PortETA";
 
 function App() {
   const [portCalls, setPortCalls] = useState([]);
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <Container style={{ margin: "30px auto" }}>
+      <PortETA portCalls={portCalls} />
       <Typography variant="h3" textAlign="center" gutterBottom>
         There are {portCalls.length} portcalls.
       </Typography>
